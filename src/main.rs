@@ -1,4 +1,4 @@
-use std::{collections::LinkedList, io::{self, Read}};
+use std::{collections::LinkedList, io::{self, Read}, time::Instant};
 
 use clap::Parser;
 use log::info;
@@ -31,9 +31,14 @@ fn main() {
 
     info!("Segments to Fill: {}", segmentos);
 
+    let now = Instant::now();
+    info!("Starting fill at {}", chrono::Local::now());
+
     for _ in 0..segmentos {
         data.push_back(rand::random());
     }
+
+    info!("Finished after {} seconds, at {}", now.elapsed().as_secs(), chrono::Local::now());
 
     info!("Bytes Filled: {}", segmentos*32);
     info!("Press any key to free the memory");
