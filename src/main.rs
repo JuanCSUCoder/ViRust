@@ -3,7 +3,7 @@ use std::{collections::LinkedList, io::{self, Read}};
 use clap::Parser;
 use log::info;
 
-/// CLI Arguments
+/// ViRust Memory Filler
 #[derive(Parser, Debug)]
 #[command(author, version, about)]
 struct Arguments {
