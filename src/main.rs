@@ -58,13 +58,13 @@ async fn main() {
         );
     }
 
-    info!("Tasks started after {} seconds, at {}", now.elapsed().as_secs(), chrono::Local::now());
+    info!("Tasks started after {} ms, at {}", now.elapsed().as_millis(), chrono::Local::now());
 
     for task in handles {
         task.await.unwrap();
     }
 
-    info!("Finished after {} seconds, at {}", now.elapsed().as_secs(), chrono::Local::now());
+    info!("Finished after {} ms, at {}", now.elapsed().as_millis(), chrono::Local::now());
 
     info!("Bytes Filled: {}", segmentos*32);
     info!("Press any key to free the memory");
