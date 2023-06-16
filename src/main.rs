@@ -1,36 +1,31 @@
-use std::{rc::Rc, borrow::BorrowMut};
+use std::collections::LinkedList;
 
-struct LinkedList {
-    data: u64,
-    link: Option<Rc<LinkedList>>
-}
+use clap::{Parser, Arg};
 
-impl LinkedList {
-    /// Constructor
-    pub fn new(data: u64) -> Self {
-        
-        Self {
-            data,
-            link: None
-        }
-    }
+/// CLI Arguments
+#[derive(Parser)]
+#[command(author, version, about)]
+struct Arguments {
+    /// Gigas of RAM to be filled
+    #[arg(short, long, default_value_t=0.0)]
+    gigas: f64,
 
-    /// Append Values
-    pub fn append(&mut self, data: u64) -> Rc<LinkedList> {
-        let referen = Rc::new(LinkedList::new(data));
-        self.link = Some(referen.clone());
+    /// Megas of RAM to be filled
+    #[arg(short, long, default_value_t=0.0)]
+    megas: f64,
 
-        referen
-    }
+    /// Kilobytes of RAM to be filled
+    #[arg(short, long, default_value_t=100)]
+    kilos: u64
 }
 
 fn main() {
-    let mut rc_data = Rc::new(LinkedList::new(69));
-    let mut data = rc_data.borrow_mut();
-    let segmentos = 15;
+    let args = Arguments::parse();
+
+    let mut data: LinkedList<i64> = LinkedList::from([69]);
+    let segmentos: u64 = (100 + (args.kilos * 1000) + ((args.megas * 1000000.0) as u64) + ((args.gigas * 1000000000.0) as u64))/8;
 
     for _ in 0..segmentos {
-        rc_data = data.append(rand::random());
-        data = rc_data.borrow_mut();
+        data.push_back(rand::random());
     }
 }
