@@ -50,7 +50,8 @@ async fn main() {
         let new_list= Arc::new(Mutex::new(LinkedList::<i64>::new()));
         data.push_back(Arc::clone(&new_list));
 
-        let task_segments = if segmentos > 500000 {500000} else {segmentos};
+        let segments_per_task: u64 = 1500000;
+        let task_segments = if segmentos > segments_per_task {segments_per_task} else {segmentos};
 
         segmentos -= task_segments;
 
