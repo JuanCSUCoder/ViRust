@@ -36,7 +36,8 @@ async fn main() {
 
     let mut data: LinkedList<Arc<Mutex<LinkedList<i64>>>> = LinkedList::new();
     let mut handles = vec![];
-    let mut segmentos: u64 = (100 + (args.kilos * 1000) + ((args.megas * 1000000.0) as u64) + ((args.gigas * 1000000000.0) as u64))/32;
+    let total_memory = 100 + (args.kilos * 1000) + ((args.megas * 1000000.0) as u64) + ((args.gigas * 1000000000.0) as u64);
+    let mut segmentos: u64 = total_memory/32;
 
     info!("Segments to Fill: {}", segmentos);
 
@@ -66,7 +67,7 @@ async fn main() {
 
     info!("Finished after {} ms, at {}", now.elapsed().as_millis(), chrono::Local::now());
 
-    info!("Bytes Filled: {}", segmentos*32);
+    info!("Bytes Filled: {}", total_memory);
     info!("Press any key to free the memory");
     io::stdin().read(&mut [0u8]).unwrap();
 }
