@@ -1,6 +1,6 @@
 use std::collections::LinkedList;
 
-use clap::{Parser, Arg};
+use clap::Parser;
 
 /// CLI Arguments
 #[derive(Parser)]
