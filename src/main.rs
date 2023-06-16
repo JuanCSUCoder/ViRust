@@ -1,7 +1,7 @@
 use std::{collections::LinkedList, io::{self, Read}, time::Instant, sync::{Arc, Mutex}};
 
 use clap::Parser;
-use log::info;
+use log::{info, trace};
 
 /// ViRust Memory Filler
 #[derive(Parser, Debug)]
@@ -25,6 +25,8 @@ async fn fill_segments(segments: u64, list_lock: Arc<Mutex<LinkedList<i64>>>) {
         let mut list = list_lock.lock().unwrap();
         list.push_back(rand::random());
     }
+
+    trace!("{} segments done.", segments)
 }
 
 #[tokio::main]
