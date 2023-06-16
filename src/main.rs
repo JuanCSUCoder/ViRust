@@ -27,7 +27,7 @@ fn main() {
     info!("Arguments: {:?}", args);
 
     let mut data: LinkedList<i64> = LinkedList::from([69]);
-    let segmentos: u64 = (100 + (args.kilos * 1000) + ((args.megas * 1000000.0) as u64) + ((args.gigas * 1000000000.0) as u64))/8;
+    let segmentos: u64 = (100 + (args.kilos * 1000) + ((args.megas * 1000000.0) as u64) + ((args.gigas * 1000000000.0) as u64))/32;
 
     info!("Segments to Fill: {}", segmentos);
 
@@ -35,7 +35,7 @@ fn main() {
         data.push_back(rand::random());
     }
 
-    info!("Bytes Filled: {}", segmentos*8);
+    info!("Bytes Filled: {}", segmentos*32);
     info!("Press any key to free the memory");
     io::stdin().read(&mut [0u8]).unwrap();
 }
