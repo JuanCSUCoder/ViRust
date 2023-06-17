@@ -1,4 +1,6 @@
 use log::info;
+use eframe::egui;
+use thousands::Separable;
 
 /// Starts the Graphical User Interface of the Benchmark Tool
 pub fn start_gui() {
@@ -9,22 +11,52 @@ pub fn start_gui() {
     ).expect("Unable to start GUI app");
 }
 
+fn custom_drag_value(&mut value: u64) -> egui::DragValue<'_> {
+    egui::DragValue::new(&mut self.max_amount).fixed_decimals(0).clamp_range(1000..=50000000).speed(500).custom_formatter(|n, _| {
+        let n = n as u64;
+
+        if n >= 10000000 {
+            format!("{} GB", n.separate_with_dots()/1000000)
+        } else if n >= 1000000 {
+            format!("{} MB", n.separate_with_dots()/1000)
+        } else {
+            format!("{} KB", n.separate_with_dots())
+        }
+    })
+}
+
 /// Benchmark Application State
 struct BenchmarkApplication {
+    min_amount: u64,
+    max_amount: u64,
     memory_amount: u64,
 }
 
 impl Default for BenchmarkApplication {
     fn default() -> Self {
-        Self { memory_amount: 100 }
+        Self {
+            min_amount: 1000,
+            max_amount: 2000000,
+            memory_amount: 100
+        }
     }
 }
 
 impl eframe::App for BenchmarkApplication {
     fn update(&mut self, ctx: &eframe::egui::Context, _frame: &mut eframe::Frame) {
         eframe::egui::CentralPanel::default().show(ctx, |ui| {
+            ui.style_mut().wrap = Some(false);
             ui.heading("ViRust Brutal Benchmarking Application");
-            ui.add(eframe::egui::Slider::new(&mut self.memory_amount, 100..=50000000));
+            ui.horizontal(|ui| {
+                ui.label("Min:");
+                ui.add(custom_drag_value(&mut self.min_amount));
+                ui.label("Max:");
+                ui.add(custom_drag_value(&mut self.max_amount));
+            });
+            ui.add(
+                eframe::egui::Slider::new(&mut self.memory_amount, self.min_amount..=self.max_amount)
+                    .suffix("KB")
+            );
             if ui.button("Fill Memory").clicked() {
                 info!("Executing memory fill of {} KB ...", &self.memory_amount);
             }
