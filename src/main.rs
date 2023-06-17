@@ -2,9 +2,9 @@ mod args;
 mod subcommands;
 
 use clap::Parser;
-use log::{info, error};
+use log::info;
 
-use args::{Arguments, Commands::Memory};
+use args::{Arguments, Commands::{Memory, Gui}};
 
 #[tokio::main]
 async fn main() {
@@ -14,9 +14,10 @@ async fn main() {
     info!("Arguments: {:?}", args);
 
     match args.commands {
-        None => error!("Default GUI Not Implemented"),
+        None => subcommands::gui::start_gui(),
         Some(command) => match command {
-            Memory(args) => subcommands::memory::fill_memory(args).await
+            Memory(args) => subcommands::memory::fill_memory(args).await,
+            Gui => subcommands::gui::start_gui()
         }
     };
 }
