@@ -1,3 +1,5 @@
+use std::ops::RangeInclusive;
+
 use log::info;
 use eframe::egui::{self, Vec2};
 use thousands::Separable;
@@ -16,22 +18,24 @@ pub fn start_gui() {
     ).expect("Unable to start GUI app");
 }
 
+fn format_bytes(n: f64, _: RangeInclusive<usize>) -> String {
+    let n = n as u64;
+
+    if n >= 10000000 {
+        format!("{} GB", (n/1000000).separate_with_dots())
+    } else if n >= 1000000 {
+        format!("{} MB", (n/1000).separate_with_dots())
+    } else {
+        format!("{} KB", n.separate_with_dots())
+    }
+}
+
 fn custom_drag_value(value: &mut u64) -> egui::DragValue<'_> {
     let actual_value = value.clone();
 
     egui::DragValue::new(value).fixed_decimals(0).clamp_range(1000..=50000000)
     .speed(if actual_value >= 10000000 {50000} else if actual_value >= 1000000 {5000} else {50})
-    .custom_formatter(|n, _| {
-        let n = n as u64;
-
-        if n >= 10000000 {
-            format!("{} GB", (n/1000000).separate_with_dots())
-        } else if n >= 1000000 {
-            format!("{} MB", (n/1000).separate_with_dots())
-        } else {
-            format!("{} KB", n.separate_with_dots())
-        }
-    }).custom_parser(|x| x.parse::<f64>().ok())
+    .custom_formatter(format_bytes).custom_parser(|x| x.parse::<f64>().ok())
 }
 
 /// Benchmark Application State
@@ -65,6 +69,7 @@ impl eframe::App for BenchmarkApplication {
             ui.add(
                 eframe::egui::Slider::new(&mut self.memory_amount, self.min_amount..=self.max_amount)
                     .suffix("KB")
+                    .custom_formatter(format_bytes)
             );
             if ui.button("Fill Memory").clicked() {
                 info!("Executing memory fill of {} KB ...", &self.memory_amount);
