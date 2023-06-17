@@ -27,7 +27,7 @@
     {
       "type": "cargo",
       "command": "run",
-      "args": ["--help"],
+      "args": ["--", "--help"],
       "problemMatcher": ["$rustc", "$rust-panic"],
       "label": "Run ViRust Help Menu"
     }
