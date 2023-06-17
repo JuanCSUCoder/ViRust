@@ -3,9 +3,6 @@ name = "virust"
 version = "1.0.1"
 edition = "2021"
 
-[build]
-rustflags = ["-C", "link-arg=-fuse-ld=lld"]
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
