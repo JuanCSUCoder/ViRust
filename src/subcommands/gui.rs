@@ -1,12 +1,17 @@
 use log::info;
-use eframe::egui;
+use eframe::egui::{self, Vec2};
 use thousands::Separable;
 
 /// Starts the Graphical User Interface of the Benchmark Tool
 pub fn start_gui() {
+    let options = eframe::NativeOptions {
+        initial_window_size: Some(Vec2::new(300.0, 100.0)),
+        ..Default::default()
+    };
+
     eframe::run_native(
         "ViRust Brutal Benchmarking Application",
-        eframe::NativeOptions::default(),
+        options,
         Box::new(|_cc| Box::<BenchmarkApplication>::default())
     ).expect("Unable to start GUI app");
 }
@@ -48,7 +53,7 @@ impl Default for BenchmarkApplication {
 
 impl eframe::App for BenchmarkApplication {
     fn update(&mut self, ctx: &eframe::egui::Context, _frame: &mut eframe::Frame) {
-        eframe::egui::Window::new("ViRust Brutal Benchmarking").show(ctx, |ui| {
+        eframe::egui::CentralPanel::default().show(ctx, |ui| {
             ui.style_mut().wrap = Some(false);
             ui.heading("ViRust Brutal Benchmarking");
             ui.horizontal(|ui| {
