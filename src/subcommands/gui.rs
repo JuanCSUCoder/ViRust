@@ -16,9 +16,9 @@ fn custom_drag_value(&mut value: u64) -> egui::DragValue<'_> {
         let n = n as u64;
 
         if n >= 10000000 {
-            format!("{} GB", n.separate_with_dots()/1000000)
+            format!("{} GB", (n/1000000).separate_with_dots())
         } else if n >= 1000000 {
-            format!("{} MB", n.separate_with_dots()/1000)
+            format!("{} MB", (n/1000).separate_with_dots())
         } else {
             format!("{} KB", n.separate_with_dots())
         }
@@ -44,9 +44,9 @@ impl Default for BenchmarkApplication {
 
 impl eframe::App for BenchmarkApplication {
     fn update(&mut self, ctx: &eframe::egui::Context, _frame: &mut eframe::Frame) {
-        eframe::egui::CentralPanel::default().show(ctx, |ui| {
+        eframe::egui::Window::new("ViRust Brutal Benchmarking").show(ctx, |ui| {
             ui.style_mut().wrap = Some(false);
-            ui.heading("ViRust Brutal Benchmarking Application");
+            ui.heading("ViRust Brutal Benchmarking");
             ui.horizontal(|ui| {
                 ui.label("Min:");
                 ui.add(custom_drag_value(&mut self.min_amount));
