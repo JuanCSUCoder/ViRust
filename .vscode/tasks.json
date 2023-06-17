@@ -10,21 +10,24 @@
     },
     {
       "type": "cargo",
-      "command": "build --release",
+      "command": "build",
+      "args": ["--release"],
       "problemMatcher": ["$rustc", "$rust-panic"],
       "group": "build",
       "label": "Build ViRust Release"
     },
     {
       "type": "cargo",
-      "command": "build --release --target x86_64-pc-windows-gnu",
+      "command": "build",
+      "args": ["--release", "--target x86_64-pc-windows-gnu"],
       "problemMatcher": ["$rustc", "$rust-panic"],
       "group": "build",
       "label": "Build ViRust Windows Release"
     },
     {
       "type": "cargo",
-      "command": "run --help",
+      "command": "run",
+      "args": ["--help"],
       "problemMatcher": ["$rustc", "$rust-panic"],
       "label": "Run ViRust Help Menu"
     }
