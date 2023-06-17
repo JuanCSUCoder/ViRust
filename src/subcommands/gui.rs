@@ -11,7 +11,7 @@ pub fn start_gui() {
     ).expect("Unable to start GUI app");
 }
 
-fn custom_drag_value(&mut value: u64) -> egui::DragValue<'_> {
+fn custom_drag_value(value: &mut u64) -> egui::DragValue<'_> {
     egui::DragValue::new(&mut self.max_amount).fixed_decimals(0).clamp_range(1000..=50000000).speed(500).custom_formatter(|n, _| {
         let n = n as u64;
 
