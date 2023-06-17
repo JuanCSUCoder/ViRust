@@ -26,7 +26,7 @@ fn custom_drag_value(value: &mut u64) -> egui::DragValue<'_> {
         } else {
             format!("{} KB", n.separate_with_dots())
         }
-    })
+    }).custom_parser(|x| x.parse::<f64>().ok())
 }
 
 /// Benchmark Application State
