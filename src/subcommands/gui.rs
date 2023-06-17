@@ -12,7 +12,7 @@ pub fn start_gui() {
 }
 
 fn custom_drag_value(value: &mut u64) -> egui::DragValue<'_> {
-    egui::DragValue::new(&mut self.max_amount).fixed_decimals(0).clamp_range(1000..=50000000).speed(500).custom_formatter(|n, _| {
+    egui::DragValue::new(value).fixed_decimals(0).clamp_range(1000..=50000000).speed(500).custom_formatter(|n, _| {
         let n = n as u64;
 
         if n >= 10000000 {
