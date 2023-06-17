@@ -1,10 +1,8 @@
 mod args;
 mod subcommands;
 
-use std::{collections::LinkedList, sync::{Arc, Mutex}};
-
 use clap::Parser;
-use log::{info, trace, error};
+use log::{info, error};
 
 use args::{Arguments, Commands::MemorySubcommand};
 

@@ -6,7 +6,27 @@
       "command": "build",
       "problemMatcher": ["$rustc", "$rust-panic"],
       "group": "build",
-      "label": "rust: cargo build"
+      "label": "Build ViRust Debug"
+    },
+    {
+      "type": "cargo",
+      "command": "build --release",
+      "problemMatcher": ["$rustc", "$rust-panic"],
+      "group": "build",
+      "label": "Build ViRust Release"
+    },
+    {
+      "type": "cargo",
+      "command": "build --release --target x86_64-pc-windows-gnu",
+      "problemMatcher": ["$rustc", "$rust-panic"],
+      "group": "build",
+      "label": "Build ViRust Windows Release"
+    },
+    {
+      "type": "cargo",
+      "command": "run --help",
+      "problemMatcher": ["$rustc", "$rust-panic"],
+      "label": "Run ViRust Help Menu"
     }
   ]
 }
