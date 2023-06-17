@@ -2,7 +2,11 @@ use log::info;
 
 /// Starts the Graphical User Interface of the Benchmark Tool
 pub fn start_gui() {
-    
+    eframe::run_native(
+        "ViRust Brutal Benchmarking Application",
+        eframe::NativeOptions::default(),
+        Box::new(|_cc| Box::<BenchmarkApplication>::default())
+    ).expect("Unable to start GUI app");
 }
 
 /// Benchmark Application State
