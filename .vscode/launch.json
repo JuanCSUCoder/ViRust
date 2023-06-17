@@ -19,8 +19,11 @@
                     "kind": "bin"
                 }
             },
-            "args": [],
-            "cwd": "${workspaceFolder}"
+            "args": ["memory"],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "RUST_LOG": "TRACE"
+            }
         },
         {
             "type": "lldb",
