@@ -68,7 +68,6 @@ impl eframe::App for BenchmarkApplication {
             });
             ui.add(
                 eframe::egui::Slider::new(&mut self.memory_amount, self.min_amount..=self.max_amount)
-                    .suffix("KB")
                     .custom_formatter(format_bytes)
             );
             if ui.button("Fill Memory").clicked() {
