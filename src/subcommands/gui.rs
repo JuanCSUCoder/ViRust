@@ -26,7 +26,7 @@ impl eframe::App for BenchmarkApplication {
             ui.heading("ViRust Brutal Benchmarking Application");
             ui.add(eframe::egui::Slider::new(&mut self.memory_amount, 100..=50000000));
             if ui.button("Fill Memory").clicked() {
-                info!("Executing memory fill of {} Kilobytes ...", &self.memory_amount);
+                info!("Executing memory fill of {} KB ...", &self.memory_amount);
             }
         });
     }
