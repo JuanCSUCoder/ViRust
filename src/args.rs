@@ -10,7 +10,8 @@ pub struct Arguments {
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
-    MemorySubcommand(MemoryArgs)
+    /// Fills the random access memory to a desired amount
+    Memory(MemoryArgs)
 }
 
 #[derive(Args, Debug)]
