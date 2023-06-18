@@ -46,6 +46,7 @@ struct BenchmarkApplication {
     max_amount: u64,
     memory_amount: u64,
     process: Option<Popen>,
+    loaded: bool,
 }
 
 impl Default for BenchmarkApplication {
@@ -55,6 +56,7 @@ impl Default for BenchmarkApplication {
             max_amount: 2000000,
             memory_amount: 100,
             process: None,
+            loaded: false,
         }
     }
 }
@@ -75,14 +77,30 @@ impl eframe::App for BenchmarkApplication {
                     .custom_formatter(format_bytes)
             );
 
-            ui.label(if let Some(x) = &mut self.process {
-                if x.poll().is_some() {"Idle"} else {"Loaded"}
-            } else {"Idle"});
+            self.loaded = if let Some(x) = &mut self.process {
+                if x.poll().is_some() {false} else {true}
+            } else {
+                true
+            };
 
-            if ui.button("Fill Memory").clicked() {
-                info!("Executing memory fill of {} KB ...", self.memory_amount);
+            if self.loaded {
+                ui.label("Status: Loaded");
 
-                self.process = Exec::cmd(std::env::current_exe().unwrap().canonicalize().unwrap().as_os_str()).args(&["memory".to_string(), "-k".to_string(), self.memory_amount.to_string()]).popen().ok();
+                if ui.button("Release Memory").clicked() {
+                    info!("Releasing memory ...");
+
+                    self.process.as_mut().unwrap().terminate().unwrap();
+                }
+            } else {
+                ui.label("Status: Idle");
+
+                if ui.button("Fill Memory").clicked() {
+                    info!("Executing memory fill of {} KB ...", self.memory_amount);
+
+                    self.process = Exec::cmd(std::env::current_exe().unwrap().canonicalize().unwrap().as_os_str()).args(&["memory".to_string(), "-k".to_string(), self.memory_amount.to_string()]).popen().ok();
+
+                    info!("Memory Process Instantiated at {} PID", self.process.as_ref().unwrap().pid().unwrap());
+                }
             }
         });
     }
