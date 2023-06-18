@@ -5,7 +5,6 @@ edition = "2021"
 repository = "https://github.com/JuanCSUCoder/ViRust/"
 readme = "README.md"
 license = "MIT"
-license-file = "LICENSE"
 description = "ViRust is a 'benchmarking' tool or software that allows you to fill the desired amount of memory with random values, to see how your computer performs with limited RAM."
 keywords = ["ram", "memory", "benchmark"]
 categories = ["command-line-utilites", "development-tools"]
