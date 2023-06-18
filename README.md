@@ -9,7 +9,6 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/JuanCSUCoder/ViRust/total?style=for-the-badge)
 ![Crates.io](https://img.shields.io/crates/d/virust?style=for-the-badge)
 
-
 ViRust is a "benchmarking" tool or software that allows you to fill the desired amount of memory with random values, to see how your computer performs with limited RAM.
 
 ## Graphical User Interface
@@ -49,8 +48,7 @@ Options:
 
 ```bash
 $ RUST_LOG=INFO ./virust memory -m 10
-```
-```bash
+
  INFO  virust > Arguments: Arguments { commands: Some(Memory(MemoryArgs { gigas: 0.0, megas: 10.0, kilos: 100 })) }
  INFO  virust::subcommands::memory > Segments to Fill: 315628
  INFO  virust::subcommands::memory > Starting fill at 2023-06-18 17:01:26.782489577 -05:00
