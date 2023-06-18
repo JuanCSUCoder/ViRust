@@ -4,45 +4,52 @@
     // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug executable 'virust'",
-            "cargo": {
-                "args": [
-                    "build",
-                    "--bin=virust",
-                    "--package=virust"
-                ],
-                "filter": {
-                    "name": "virust",
-                    "kind": "bin"
-                }
-            },
-            "args": ["memory"],
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "RUST_LOG": "TRACE"
-            }
+      {
+        "type": "lldb",
+        "request": "launch",
+        "name": "Debug CLI 'virust'",
+        "cargo": {
+          "args": ["build", "--bin=virust", "--package=virust"],
+          "filter": {
+            "name": "virust",
+            "kind": "bin"
+          }
         },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug unit tests in executable 'virust'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--bin=virust",
-                    "--package=virust"
-                ],
-                "filter": {
-                    "name": "virust",
-                    "kind": "bin"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
+        "args": ["memory", "-g", "1"],
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "RUST_LOG": "TRACE"
         }
+      },
+      {
+        "type": "lldb",
+        "request": "launch",
+        "name": "Debug GUI 'virust'",
+        "cargo": {
+          "args": ["build", "--bin=virust", "--package=virust"],
+          "filter": {
+            "name": "virust",
+            "kind": "bin"
+          }
+        },
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "RUST_LOG": "DEBUG"
+        }
+      },
+      {
+        "type": "lldb",
+        "request": "launch",
+        "name": "Debug unit tests in executable 'virust'",
+        "cargo": {
+          "args": ["test", "--no-run", "--bin=virust", "--package=virust"],
+          "filter": {
+            "name": "virust",
+            "kind": "bin"
+          }
+        },
+        "args": [],
+        "cwd": "${workspaceFolder}"
+      }
     ]
 }
