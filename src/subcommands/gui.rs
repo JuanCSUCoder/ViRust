@@ -12,7 +12,7 @@ pub fn start_gui() {
     };
 
     eframe::run_native(
-        "ViRust Brutal Benchmarking Application",
+        "ViRust Brutal Benchmarking",
         options,
         Box::new(|_cc| Box::<BenchmarkApplication>::default())
     ).expect("Unable to start GUI app");
