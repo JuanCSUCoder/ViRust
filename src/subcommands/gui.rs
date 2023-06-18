@@ -24,9 +24,9 @@ pub fn start_gui() {
 fn format_bytes(n: f64, _: RangeInclusive<usize>) -> String {
     let n = n as u64;
 
-    if n >= 10000000 {
+    if n >= 3000000 {
         format!("{} GB", (n/1000000).separate_with_dots())
-    } else if n >= 1000000 {
+    } else if n >= 3000 {
         format!("{} MB", (n/1000).separate_with_dots())
     } else {
         format!("{} KB", n.separate_with_dots())
@@ -37,7 +37,7 @@ fn custom_drag_value(value: &mut u64) -> egui::DragValue<'_> {
     let actual_value = value.clone();
 
     egui::DragValue::new(value).fixed_decimals(0).clamp_range(1000..=50000000)
-    .speed(if actual_value >= 10000000 {50000} else if actual_value >= 1000000 {5000} else {50})
+    .speed(if actual_value >= 3000000 {50000} else if actual_value >= 3000 {100} else {50})
     .custom_formatter(format_bytes).custom_parser(|x| x.parse::<f64>().ok())
 }
 
