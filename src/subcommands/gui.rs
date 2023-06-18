@@ -3,6 +3,9 @@ use std::ops::RangeInclusive;
 use log::info;
 use eframe::egui::{self, Vec2};
 use thousands::Separable;
+use tokio::task::JoinHandle;
+
+use crate::{subcommands, args::MemoryArgs};
 
 /// Starts the Graphical User Interface of the Benchmark Tool
 pub fn start_gui() {
@@ -43,6 +46,7 @@ struct BenchmarkApplication {
     min_amount: u64,
     max_amount: u64,
     memory_amount: u64,
+    task: Option<JoinHandle<()>>,
 }
 
 impl Default for BenchmarkApplication {
@@ -50,7 +54,8 @@ impl Default for BenchmarkApplication {
         Self {
             min_amount: 1000,
             max_amount: 2000000,
-            memory_amount: 100
+            memory_amount: 100,
+            task: None
         }
     }
 }
@@ -70,8 +75,23 @@ impl eframe::App for BenchmarkApplication {
                 eframe::egui::Slider::new(&mut self.memory_amount, self.min_amount..=self.max_amount)
                     .custom_formatter(format_bytes)
             );
+
+            ui.label(if let Some(x) = &self.task {
+                if x.is_finished() {"Loaded"} else {"Loading"}
+            } else {"Idle"});
+
             if ui.button("Fill Memory").clicked() {
-                info!("Executing memory fill of {} KB ...", &self.memory_amount);
+                let memory_to_fill = self.memory_amount;
+
+                info!("Executing memory fill of {} KB ...", memory_to_fill);
+
+                self.task = Some(tokio::spawn(async move {
+                    subcommands::memory::fill_memory(MemoryArgs {
+                        kilos: memory_to_fill,
+                        megas: 0.0,
+                        gigas: 0.0
+                    }).await;
+                }));
             }
         });
     }
