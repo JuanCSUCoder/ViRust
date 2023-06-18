@@ -2,10 +2,8 @@ use std::ops::RangeInclusive;
 
 use log::info;
 use eframe::egui::{self, Vec2};
+use subprocess::{Exec, Popen};
 use thousands::Separable;
-use tokio::task::JoinHandle;
-
-use crate::{subcommands, args::MemoryArgs};
 
 /// Starts the Graphical User Interface of the Benchmark Tool
 pub fn start_gui() {
@@ -47,7 +45,7 @@ struct BenchmarkApplication {
     min_amount: u64,
     max_amount: u64,
     memory_amount: u64,
-    task: Option<JoinHandle<()>>,
+    process: Option<Popen>,
 }
 
 impl Default for BenchmarkApplication {
@@ -56,7 +54,7 @@ impl Default for BenchmarkApplication {
             min_amount: 1000,
             max_amount: 2000000,
             memory_amount: 100,
-            task: None
+            process: None,
         }
     }
 }
@@ -77,22 +75,14 @@ impl eframe::App for BenchmarkApplication {
                     .custom_formatter(format_bytes)
             );
 
-            ui.label(if let Some(x) = &self.task {
-                if x.is_finished() {"Loaded"} else {"Loading"}
+            ui.label(if let Some(x) = &mut self.process {
+                if x.poll().is_some() {"Idle"} else {"Loaded"}
             } else {"Idle"});
 
             if ui.button("Fill Memory").clicked() {
-                let memory_to_fill = self.memory_amount;
+                info!("Executing memory fill of {} KB ...", self.memory_amount);
 
-                info!("Executing memory fill of {} KB ...", memory_to_fill);
-
-                self.task = Some(tokio::spawn(async move {
-                    subcommands::memory::fill_memory(MemoryArgs {
-                        kilos: memory_to_fill,
-                        megas: 0.0,
-                        gigas: 0.0
-                    }).await;
-                }));
+                self.process = Exec::cmd(std::env::current_exe().unwrap().canonicalize().unwrap().as_os_str()).args(&["memory".to_string(), "-k".to_string(), self.memory_amount.to_string()]).popen().ok();
             }
         });
     }
