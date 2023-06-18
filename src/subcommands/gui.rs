@@ -80,7 +80,7 @@ impl eframe::App for BenchmarkApplication {
             self.loaded = if let Some(x) = &mut self.process {
                 if x.poll().is_some() {false} else {true}
             } else {
-                true
+                false
             };
 
             if self.loaded {
