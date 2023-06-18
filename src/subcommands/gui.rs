@@ -10,7 +10,8 @@ use crate::{subcommands, args::MemoryArgs};
 /// Starts the Graphical User Interface of the Benchmark Tool
 pub fn start_gui() {
     let options = eframe::NativeOptions {
-        initial_window_size: Some(Vec2::new(300.0, 100.0)),
+        initial_window_size: Some(Vec2::new(300.0, 150.0)),
+        resizable: false,
         ..Default::default()
     };
 
