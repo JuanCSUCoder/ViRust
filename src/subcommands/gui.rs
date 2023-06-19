@@ -8,7 +8,7 @@ use thousands::Separable;
 /// Starts the Graphical User Interface of the Benchmark Tool
 pub fn start_gui() {
     let options = eframe::NativeOptions {
-        initial_window_size: Some(Vec2::new(300.0, 150.0)),
+        initial_window_size: Some(Vec2::new(270.0, 150.0)),
         resizable: false,
         ..Default::default()
     };
@@ -102,6 +102,9 @@ impl eframe::App for BenchmarkApplication {
                     info!("Memory Process Instantiated at {} PID", self.process.as_ref().unwrap().pid().unwrap());
                 }
             }
+
+            ui.label("By @JuanCSUCoder. License: MIT");
+            ui.hyperlink("https://github.com/JuanCSUCoder/ViRust");
         });
     }
 }
