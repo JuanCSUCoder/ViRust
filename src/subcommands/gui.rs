@@ -10,6 +10,7 @@ pub fn start_gui() {
     let options = eframe::NativeOptions {
         initial_window_size: Some(Vec2::new(270.0, 150.0)),
         renderer: eframe::Renderer::Wgpu,
+        hardware_acceleration: eframe::HardwareAcceleration::Preferred,
         resizable: false,
         ..Default::default()
     };
