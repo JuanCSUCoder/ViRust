@@ -1,4 +1,4 @@
-use std::{sync::{Arc, Mutex}, collections::LinkedList, time::Instant};
+use std::{sync::{Arc, Mutex}, collections::LinkedList, time::Instant, io::{stdin, Read}};
 
 use log::{info, trace};
 
@@ -50,4 +50,7 @@ pub async fn fill_memory(args: MemoryArgs) {
     info!("Finished after {} ms, at {}", now.elapsed().as_millis(), chrono::Local::now());
 
     info!("Bytes Filled: {}", total_memory);
+
+    info!("Press any key to free the memory");
+    stdin().read(&mut [0u8]).unwrap();
 }

@@ -1,6 +1,6 @@
 use std::ops::RangeInclusive;
 
-use log::info;
+use log::{info, warn};
 use eframe::egui::{self, Vec2};
 use subprocess::{Exec, Popen};
 use thousands::Separable;
@@ -8,13 +8,13 @@ use thousands::Separable;
 /// Starts the Graphical User Interface of the Benchmark Tool
 pub fn start_gui() {
     let options = eframe::NativeOptions {
-        initial_window_size: Some(Vec2::new(300.0, 150.0)),
+        initial_window_size: Some(Vec2::new(270.0, 150.0)),
         resizable: false,
         ..Default::default()
     };
 
     eframe::run_native(
-        "ViRust Brutal Benchmarking",
+        "ViRust Memory Tester",
         options,
         Box::new(|_cc| Box::<BenchmarkApplication>::default())
     ).expect("Unable to start GUI app");
@@ -65,7 +65,7 @@ impl eframe::App for BenchmarkApplication {
     fn update(&mut self, ctx: &eframe::egui::Context, _frame: &mut eframe::Frame) {
         eframe::egui::CentralPanel::default().show(ctx, |ui| {
             ui.style_mut().wrap = Some(false);
-            ui.heading("ViRust Brutal Benchmarking");
+            ui.heading("ViRust Memory Tester");
             ui.horizontal(|ui| {
                 ui.label("Min:");
                 ui.add(custom_drag_value(&mut self.min_amount));
@@ -102,6 +102,21 @@ impl eframe::App for BenchmarkApplication {
                     info!("Memory Process Instantiated at {} PID", self.process.as_ref().unwrap().pid().unwrap());
                 }
             }
+
+            ui.label("By @JuanCSUCoder. License: MIT");
+            ui.hyperlink("https://github.com/JuanCSUCoder/ViRust");
         });
+    }
+
+    fn on_exit(&mut self, _gl: Option<&eframe::glow::Context>) {
+        info!("Closing requested");
+        if let Some(p) = &mut self.process {
+            warn!("Process detected!");
+            if p.poll().is_none() {
+                p.terminate().unwrap();
+                warn!("Cleaning unclear memory");
+                info!("Memory cleared! Terminating ...");
+            }
+        }
     }
 }
