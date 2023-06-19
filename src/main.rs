@@ -1,8 +1,6 @@
 mod args;
 mod subcommands;
 
-use std::io::{stdin, Read};
-
 use clap::Parser;
 use log::info;
 
@@ -18,11 +16,7 @@ async fn main() {
     match args.commands {
         None => subcommands::gui::start_gui(),
         Some(command) => match command {
-            Memory(args) => {
-                subcommands::memory::fill_memory(args).await;
-                info!("Press any key to free the memory");
-                stdin().read(&mut [0u8]).unwrap();
-            },
+            Memory(args) => subcommands::memory::fill_memory(args).await,
             Gui => subcommands::gui::start_gui()
         }
     };
