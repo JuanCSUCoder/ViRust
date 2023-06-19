@@ -14,7 +14,7 @@ categories = ["command-line-utilites", "development-tools"]
 [dependencies]
 chrono = "0.4.26"
 clap = { version = "4.3.4", features = ["derive"] }
-eframe = "0.22.0"
+eframe = { version = "0.22.0", features = ["wgpu"] }
 log = "0.4.19"
 pretty_env_logger = "0.5.0"
 rand = "0.8.5"
