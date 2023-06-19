@@ -9,6 +9,7 @@ use thousands::Separable;
 pub fn start_gui() {
     let options = eframe::NativeOptions {
         initial_window_size: Some(Vec2::new(270.0, 150.0)),
+        renderer: eframe::Renderer::Wgpu,
         resizable: false,
         ..Default::default()
     };
