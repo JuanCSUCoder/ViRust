@@ -1,4 +1,4 @@
-# ViRust Brutal Benchmarking
+# ViRust Memory Tester
 
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/JuanCSUCoder/ViRust?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/JuanCSUCoder/ViRust?style=for-the-badge)

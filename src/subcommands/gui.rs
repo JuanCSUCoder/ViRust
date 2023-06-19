@@ -14,7 +14,7 @@ pub fn start_gui() {
     };
 
     eframe::run_native(
-        "ViRust Brutal Benchmarking",
+        "ViRust Memory Tester",
         options,
         Box::new(|_cc| Box::<BenchmarkApplication>::default())
     ).expect("Unable to start GUI app");
@@ -65,7 +65,7 @@ impl eframe::App for BenchmarkApplication {
     fn update(&mut self, ctx: &eframe::egui::Context, _frame: &mut eframe::Frame) {
         eframe::egui::CentralPanel::default().show(ctx, |ui| {
             ui.style_mut().wrap = Some(false);
-            ui.heading("ViRust Brutal Benchmarking");
+            ui.heading("ViRust Memory Tester");
             ui.horizontal(|ui| {
                 ui.label("Min:");
                 ui.add(custom_drag_value(&mut self.min_amount));
