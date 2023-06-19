@@ -113,7 +113,7 @@ impl eframe::App for BenchmarkApplication {
         if let Some(p) = &mut self.process {
             warn!("Process detected!");
             if p.poll().is_none() {
-                p.terminate();
+                p.terminate().unwrap();
                 warn!("Cleaning unclear memory");
                 info!("Memory cleared! Terminating ...");
             }
