@@ -1,6 +1,6 @@
 use std::ops::RangeInclusive;
 
-use log::info;
+use log::{info, warn};
 use eframe::egui::{self, Vec2};
 use subprocess::{Exec, Popen};
 use thousands::Separable;
@@ -106,5 +106,17 @@ impl eframe::App for BenchmarkApplication {
             ui.label("By @JuanCSUCoder. License: MIT");
             ui.hyperlink("https://github.com/JuanCSUCoder/ViRust");
         });
+    }
+
+    fn on_exit(&mut self, _gl: Option<&eframe::glow::Context>) {
+        info!("Closing requested");
+        if let Some(p) = &mut self.process {
+            warn!("Process detected!");
+            if p.poll().is_none() {
+                p.terminate();
+                warn!("Cleaning unclear memory");
+                info!("Memory cleared! Terminating ...");
+            }
+        }
     }
 }
